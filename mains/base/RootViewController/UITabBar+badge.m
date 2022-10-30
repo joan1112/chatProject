@@ -1,0 +1,46 @@
+//
+//  UITabBar+badge.m
+//  MCC-AMS
+//
+//  Created by BOC008 on 2019/1/29.
+//  Copyright © 2019年 BOC002. All rights reserved.
+//
+
+#import "UITabBar+badge.h"
+
+#define TabbarItemNums 5.0
+
+@implementation UITabBar (badge)
+
+//显示红点
+- (void)showBadgeOnItemIndex:(int)index{
+    [self removeBadgeOnItemIndex:index];
+    //新建小红点
+    UIView *bview = [[UIView alloc]init];
+    bview.tag = 888+index;
+    bview.layer.cornerRadius = 3.5;
+    bview.clipsToBounds = YES;
+    bview.backgroundColor = [UIColor redColor];
+    CGRect tabFram = self.frame;
+    
+    float percentX = (index+0.65)/TabbarItemNums;
+    CGFloat x = ceilf(percentX*tabFram.size.width);
+    CGFloat y = ceilf(0.1*tabFram.size.height);
+    bview.frame = CGRectMake(x, y, 7, 7);
+    [self addSubview:bview];
+    [self bringSubviewToFront:bview];
+}
+//隐藏红点
+-(void)hideBadgeOnItemIndex:(int)index{
+    [self removeBadgeOnItemIndex:index];
+}
+//移除控件
+- (void)removeBadgeOnItemIndex:(int)index{
+    for (UIView*subView in self.subviews) {
+        if (subView.tag == 888+index) {
+            [subView removeFromSuperview];
+        }
+    }
+}
+
+@end
